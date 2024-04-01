@@ -51,3 +51,8 @@ Variable gain
 ```
 python train.py task=DoorOpenRobotArm checkpoint=runs/[DoorOpenRobotArm Directory]/nn/DoorOpenRobotArm.pth test=True num_envs=10 task.env.randomize_env=False task.env.test_flag=True task.env.control=1
 ```
+
+## License
+本コードは，株式会社アールティの商品であるCRANE-X7のデータを使用している．  
+以下に株式会社アールティの非商用使用許諾規約が記載されているリンクを示す．  
+https://github.com/rt-net/crane_x7_description/blob/master/LICENSE
