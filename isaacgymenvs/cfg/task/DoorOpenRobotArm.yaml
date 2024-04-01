@@ -1,0 +1,50 @@
+# used to create the object
+name: DoorOpenRobotArm
+
+physics_engine: ${..physics_engine}
+
+# if given, will override the device setting in gym. 
+env:
+  numEnvs: ${resolve_default:512,${...num_envs}}
+  envSpacing: 1.0
+  maxEffort: 4.0
+  control: 0              # 0:Fixed gain, 1:Variable gain
+  stiffness_offset: 50.0  # Maximum value of Kp
+  damping_offset: 0.5     # Maximum value of Kd
+  randomize_env: True
+  test_flag: False
+
+  clipObservations: 5.0
+  clipActions: 1.0
+
+  asset:
+    assetRoot: "../../assets"
+    assetFileName: "urdf/door_open_robot_arm/robot/crane_x7.urdf"
+    door_assetFileName: "door_pattern_1.urdf"
+
+  # set to True if you use camera sensors in the environment
+  enableCameraSensors: False
+
+sim:
+  dt: 0.01
+  substeps: 2
+  up_axis: "z"
+  use_gpu_pipeline: ${eq:${...pipeline},"gpu"}
+  gravity: [0.0, 0.0, -9.81]
+  physx:
+    num_threads: ${....num_threads}
+    solver_type: ${....solver_type}
+    use_gpu: ${contains:"cuda",${....sim_device}}
+    num_position_iterations: 4
+    num_velocity_iterations: 0
+    contact_offset: 0.02
+    rest_offset: 0.0001
+    bounce_threshold_velocity: 0.2
+    max_depenetration_velocity: 100.0
+    default_buffer_size_multiplier: 2.0
+    max_gpu_contact_pairs: 1500000
+    num_subscenes: ${....num_subscenes}
+    contact_collection: 0
+
+task:
+  randomize: False

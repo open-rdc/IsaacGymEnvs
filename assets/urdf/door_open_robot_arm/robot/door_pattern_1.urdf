@@ -1,0 +1,189 @@
+<?xml version="1.0" ?>
+<robot name="door" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <link name="hinge">
+    <visual>
+      <geometry>
+        <box size="0.4 0.01 0.01"/>
+      </geometry>
+      <material name="box">
+        <color rgba="0.5 0.5 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+          <box size="0.4 0.01 0.01"/>
+      </geometry>
+      <sdf resolution="256"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+    </inertial>
+  </link>
+
+  <link name="wall">
+    <visual>
+      <geometry>
+        <box size="0.3 0.01 0.5"/>
+      </geometry>
+      <material name="wall_color">
+        <color rgba="1.0 1.0 1.0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.3 0.01 0.5"/>
+      </geometry>
+    </collision>
+    <sdf resolution="256"/>
+    <inertial>
+      <mass value="1.0"/>
+    </inertial>
+  </link>
+
+  <link name="board">
+    <visual>
+      <geometry>
+        <box size="0.01 1.0 0.5"/>
+      </geometry>
+      <origin xyz="0 0 0.25"/>
+      <material name="board_color">
+        <color rgba="1.0 0.5 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.01 1.0 0.5"/>
+      </geometry>
+      <sdf resolution="256"/>
+      <origin xyz="0 0 0.25"/>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+    </inertial>
+  </link>
+
+  <link name="board_2">
+    <visual>
+      <geometry>
+        <box size="0.025 0.025 0.02"/>
+      </geometry>
+      <material name="box2">
+        <color rgba="0.5 0.5 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.025 0.025 0.02"/>
+      </geometry>
+      <sdf resolution="256"/>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+    </inertial>
+  </link>
+
+  <link name="board_3">
+    <visual>
+      <geometry>
+        <box size="0.015 0.015 0.1"/>
+      </geometry>
+      <origin xyz="0 0 0.015" rpy="0 0 0" />
+      <material name="board_3_color">
+        <color rgba="0.5 0.5 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.015 0.015 0.1"/>
+      </geometry>
+      <origin xyz="0 0 0.015" rpy="0 0 0" />
+      <sdf resolution="256"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+    </inertial>
+  </link>
+
+  <link name="board_4">
+    <visual>
+      <geometry>
+        <box size="0.03 0.015 0.015"/>
+      </geometry>
+      <material name="board_4_color">
+        <color rgba="0.5 0.5 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.03 0.015 0.015"/>
+      </geometry>
+      <sdf resolution="256"/>
+    </collision>
+    <inertial>
+      <mass value="0.001"/>
+    </inertial>
+  </link>
+
+  <link name="lock_door">
+    <visual>
+      <geometry>
+        <box size="0.02 0.25 0.02"/>
+      </geometry>
+      <origin xyz="0 0.12 0" rpy="0 0 0" />
+      <material name="lock_door_color">
+        <color rgba="0.5 0.5 0.7 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.02 0.25 0.02"/>
+      </geometry>
+      <origin xyz="0 0.12 0" rpy="0 0 0" />
+      <sdf resolution="256"/>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+    </inertial>
+  </link>
+  
+  <joint name="hinge_to_board" type="revolute"> <!--"continuous"--> <!--"revolute"-->
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0" rpy="0.0 0.0 1.5708"/> <!--rpy="0.0 0.0 1.57"-->
+    <parent link="hinge"/>
+    <child link="board"/>
+    <limit effort="10.0" velocity="10" lower="0.0" upper="2.35"/>
+  </joint>
+
+  <joint name="board_to_board" type="revolute"> <!--"continuous"--> <!--"revolute"-->
+    <axis xyz="-1 0 0"/>
+    <origin xyz="0.0 0.0 0.475" rpy="0.0 0.0 0.0"/>
+    <parent link="board"/>
+    <child link="board_2"/>
+    <limit effort="10.0" velocity="10" lower="0.0" upper="0.52"/>
+  </joint>
+
+  <joint name="board2_to_board3" type="fixed"> <!--"continuous"--> <!--"revolute"-->
+    <origin xyz="0.04 0.0 -0.055" rpy="0.0 0.0 0.0"/>
+    <parent link="board_2"/>
+    <child link="board_3"/>
+  </joint>
+
+  <joint name="board2_to_board4" type="fixed"> <!--"continuous"--> <!--"revolute"-->
+    <origin xyz="0.028 0.0 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="board_2"/>
+    <child link="board_4"/>
+  </joint>
+
+  <joint name="board2_to_lock_door" type="fixed"> <!--"continuous"--> <!--"revolute"-->
+    <origin xyz="-0.019 0.0 0.0125" rpy="0.52 0.0 0.0"/>
+    <parent link="board_2"/>
+    <child link="lock_door"/>
+  </joint>
+
+  <joint name="hinge_to_wall" type="fixed"> <!--"continuous"--> <!--"revolute"-->
+    <origin xyz="0 0 0.756" rpy="0.0 0.0 0.0"/> <!--rpy="0.0 0.0 1.57"-->
+    <parent link="hinge"/>
+    <child link="wall"/>
+  </joint>
+
+</robot>
